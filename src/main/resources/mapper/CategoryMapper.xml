@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imooc.mall.dao.CategoryMapper">
+    <update id="updateName">
+        update mall_category set name ="香水" where id=#{id};
+    </update>
+    <sql id="Base_Column_list">
+         id,
+     parent_id,
+      name,
+     status,
+    sort_order,
+    create_time,
+    update_time
+    </sql>
+    <select id="selectById" resultType="com.imooc.mall.pojo.Category">
+        select 
+        <include refid="Base_Column_list"></include>
+        from mall_category where id=#{id};
+    </select>
+</mapper>
