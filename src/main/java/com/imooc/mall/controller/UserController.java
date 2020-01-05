@@ -25,13 +25,13 @@ import javax.validation.Valid;
  */
 @RestController
 @Slf4j
-@RequestMapping("/user")
+
 public class UserController {
     @Autowired
     private IUserService userService;
 
 
-    @PostMapping("/register")
+    @PostMapping("/user/register")
     public ResponseVo register(@Valid @RequestBody UserRegisterForm userForm,
                                 BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -50,11 +50,10 @@ public class UserController {
     /**
      * 登錄
      */
-    @PostMapping("/login")
+    @PostMapping("/user/login")
     public ResponseVo login(@Valid @RequestBody UserLoginForm user,
                             BindingResult bindingResult,
                             HttpServletRequest httpServletRequest){
-
         if(bindingResult.hasErrors()){
             log.error("賬號和密碼有誤={}{}",bindingResult.getFieldError().getField(),
                     bindingResult.getFieldError().getDefaultMessage());
@@ -63,18 +62,32 @@ public class UserController {
         //設置session
         HttpSession session = httpServletRequest.getSession();
         session.setAttribute(MallConsts.CURRENT_USER,userResponseVo.getData());
-        return userService.login(user.getUsername(),user.getPassword());
+        log.info("login sessionId={}",session.getId());
+        return userResponseVo;
     }
 
     /**
      * 獲取用戶的登錄信息
+     * session保存在内存里,服务器重启后就没有了,session会存在Redis中
+     * token(token其实就是sessionId)加redis
      */
+    //判断登录状态
     @GetMapping("/user")
     public ResponseVo<User> userInfo(HttpSession session){
         User user=(User)session.getAttribute(MallConsts.CURRENT_USER);
-        if(user==null){
-            return ResponseVo.error(ResponseEnum.NEED_LOGIN);
-        }
         return ResponseVo.success(user);
+    }
+
+    /**
+     * 登出
+     * @param session
+     * @return
+     */
+    //TODO 判断登录状态,拦截器
+    @PostMapping("/user/logut")
+    public ResponseVo logut(HttpSession session){
+        log.info("/user/logut sessionId={}",session.getId());
+        session.removeAttribute(MallConsts.CURRENT_USER);
+        return ResponseVo.success();
     }
 }

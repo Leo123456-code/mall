@@ -21,4 +21,11 @@ public class RuntimeExceptionHandler {
 
         return ResponseVo.error(ResponseEnum.PARAM_ERROR,e.getMessage());
     }
+
+    @ExceptionHandler(UserLoginException.class)
+    @ResponseBody
+    public ResponseVo userLoginHandle(){
+
+        return ResponseVo.error(ResponseEnum.NEED_LOGIN);
+    }
 }

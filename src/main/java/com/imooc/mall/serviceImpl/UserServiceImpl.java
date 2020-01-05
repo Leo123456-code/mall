@@ -50,6 +50,12 @@ public class UserServiceImpl implements IUserService {
 
     }
 
+    /**
+     * 登录
+     * @param username
+     * @param password
+     * @return
+     */
     @Override
     public ResponseVo<User> login(String username, String password) {
         //通過用戶名查數據
