@@ -43,13 +43,19 @@
         </javaClientGenerator>
 
         <!-- 相关表的配置 -->
-                <table tableName="mall_category" domainObjectName="Category" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>
+        <!--图片类型的会另生成一张表，需要加columnOverride column="sub_images" jdbcType="VARCHAR"-->
+               <!-- <table tableName="mall_product" domainObjectName="Product" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">
+                    <columnOverride column="detail" jdbcType="VARCHAR" ></columnOverride>
+                    <columnOverride column="sub_images" jdbcType="VARCHAR" ></columnOverride>
+                </table>-->
 <!--        <table tableName="mall"-->
 <!--               enableCountByExample="false"-->
 <!--               enableDeleteByExample="false"-->
 <!--               enableSelectByExample="false"-->
 <!--               enableUpdateByExample="false"/>-->
-<!--                <table tableName="mall_user" domainObjectName="User" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>-->
-<!--                <table tableName="mall_order" domainObjectName="Order" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>-->
+<table tableName="mall_order_item" domainObjectName="orderItem" enableCountByExample="false" enableDeleteByExample="false"
+ enableSelectByExample="false" enableUpdateByExample="false"/>
+<!--                <table tableName="mall_order" domainObjectName="Order"
+enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"/>-->
     </context>
 </generatorConfiguration>

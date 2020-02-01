@@ -10,7 +10,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * created by Leo徐忠春
@@ -31,6 +33,13 @@ public class CategoryServiceImplTest extends MallApplicationTests {
         Assert.assertEquals(ResponseEnum.SUCCESS.getCode(),
                 responseVo.getStatus());
 
+    }
+
+    @Test
+    public void findSubCategoryId(){
+        Set<Integer> set = new HashSet<>();
+        categoryService.findSubCategoryId(100001,set);
+        log.info("set={}",set);
     }
 
 }

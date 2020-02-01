@@ -40,6 +40,7 @@ public class ResponseVo<T> {
 
         return new ResponseVo<>(ResponseEnum.SUCCESS.getCode(),msg);
     }
+
     public static <T> ResponseVo<T> success(T data){
 
         return new ResponseVo<>(ResponseEnum.SUCCESS.getCode(),data);
@@ -48,6 +49,12 @@ public class ResponseVo<T> {
     public static <T> ResponseVo<T> success(){
         return new ResponseVo<>(ResponseEnum.SUCCESS.getCode(),
                 ResponseEnum.SUCCESS.getDesc());
+    }
+    public static <T> ResponseVo<T> success(ResponseEnum responseEnum,String msg){
+        return new ResponseVo<>(responseEnum.getCode(),msg);
+    }
+    public static <T> ResponseVo<T> success(ResponseEnum responseEnum){
+        return new ResponseVo<>(responseEnum.getCode(),responseEnum.getDesc());
     }
     //注册失败
     public static <T> ResponseVo<T> error(ResponseEnum responseEnum){

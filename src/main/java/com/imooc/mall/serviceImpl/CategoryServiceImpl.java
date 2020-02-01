@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * http請求最耗時
@@ -46,6 +47,28 @@ public class CategoryServiceImpl implements ICategoryService {
         return ResponseVo.success(categoryVoList);
     }
 
+    //根据id查询所有的类目商品
+    @Override
+    public void findSubCategoryId(Integer id, Set<Integer> resultSet) {
+        List<Category> categories = categoryMapper.selectAll();
+        findSubCategoryId(id,resultSet,categories);
+
+
+    }
+
+    //重载方法
+    private void findSubCategoryId(Integer id, Set<Integer> resultSet,
+                                  List<Category> categories) {
+        for (Category category : categories) {
+            //如果是子类目就放到list中(id=parentId表示是子类目)
+            if(category.getParentId().equals(id)){
+                resultSet.add(category.getId());
+                //递归查询
+                findSubCategoryId(category.getId(),resultSet,categories);
+            }
+        }
+    }
+
     private void findSubCategoryVo(List<CategoryVo> categoryVoList,
                                    List<Category> categories) {
         for (CategoryVo categoryVo : categoryVoList) {
@@ -56,7 +79,7 @@ public class CategoryServiceImpl implements ICategoryService {
                     CategoryVo subCategoryVo=categoryVo(category);
                     subCategoryList.add(subCategoryVo);
                 }
-                //根據SortOrder進行降序排序
+                //根據SortOrder進行排序
                 subCategoryList.sort(Comparator.comparing
                         (CategoryVo::getSortOrder));
                 categoryVo.setSubCategories(subCategoryList);
